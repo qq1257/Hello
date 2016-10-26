@@ -27,7 +27,6 @@ namespace PressureHeight
     public sealed partial class MainPage : Page
     {
         private ObservableCollection<Item> items;
-        private Client client;
         private Altimeter alti;
         private DeviceUseTrigger _deviceUseTrigger;
         // 注册的后台任务对象
@@ -377,72 +376,10 @@ namespace PressureHeight
         }
         private void Connect__Button_Click(object sender, RoutedEventArgs e)
         {
-            client = new Client(Transport.Socket);
-            client.Settings.Hostname = Host_Text.Text;
-            //client.Settings.SSL = true;
-            client.Settings.OldSSL = false;
-            client.Settings.AuthenticationTypes = MechanismType.DigestMd5;
-            client.Settings.Port = Int32.Parse(Port_Text.Text);
-            client.Settings.Id = new Jid(User_Text.Text,Domin_Text.Text,"C#");
-            client.Settings.Password = Password_Text.Text;
-            client.OnConnected += Client_OnConnected;
-            client.OnDisconnected += Client_OnDisconnected;
-            client.OnError += Client_OnError;
-            client.OnLogMessage += Client_OnLogMessage;
-            client.OnNewTag += Client_OnNewTag;
-            client.OnReady += Client_OnReady;
-            client.OnReceive += Client_OnReceive;
-            client.OnResourceBound += Client_OnResourceBound;
-            client.Connect();
+
         }
 
-        private void Client_OnResourceBound(object sender, XMPP.Common.ResourceBoundEventArgs e)
-        {
-            Debug.WriteLine("Client_OnResourceBound:" + e.ToString());
-            //throw new NotImplementedException();
-        }
-
-        private void Client_OnReceive(object sender, XMPP.Common.TagEventArgs e)
-        {
-            Debug.WriteLine("Client_OnReceive:" + e.tag);
-            //throw new NotImplementedException();
-        }
-
-        private void Client_OnReady(object sender, EventArgs e)
-        {
-            Debug.WriteLine("Client_OnReady:" + e);
-            //throw new NotImplementedException();
-        }
-
-        private void Client_OnNewTag(object sender, XMPP.Common.TagEventArgs e)
-        {
-            Debug.WriteLine("Client_OnNewTag:" + e.tag);
-            //throw new NotImplementedException();
-        }
-
-        private void Client_OnLogMessage(object sender, XMPP.Common.LogEventArgs e)
-        {
-            Debug.WriteLine("Client_OnLogMessage:" + e.message.ToString());
-            //throw new NotImplementedException();
-        }
-
-        private void Client_OnError(object sender, XMPP.Common.ErrorEventArgs e)
-        {
-            Debug.WriteLine("Client_OnError:" + e.message.ToString());
-            //throw new NotImplementedException();
-        }
-
-        private void Client_OnDisconnected(object sender, EventArgs e)
-        {
-            Debug.WriteLine("Client_OnDisconnected:" + e);
-            //throw new NotImplementedException();
-        }
-
-        private void Client_OnConnected(object sender, EventArgs e)
-        {
-            Debug.WriteLine("Client_OnConnected:" + e);
-            //throw new NotImplementedException();
-        }
+        
 
         private DateTime dtBackTimeFirst;
         private DateTime dtBackTimeSecond;
