@@ -68,7 +68,7 @@ namespace PressureHeight
             }
 
             new Geolocator().GetGeopositionAsync();
-            DataManager.getInstance();
+            //DataManager.getInstance();
         }
 
         private  void Open_Button_Click(object sender, RoutedEventArgs e)

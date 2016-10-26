@@ -27,36 +27,36 @@ namespace DataBase
             db = new DatabaseConnection_UWP().DbConnection();
             db.CreateTable<TravelSummary>();
 
-            string sql = "select * from Travel_Summary";
-            SQLiteCommand cmd = db.CreateCommand(sql);
-            List<TravelSummary> reader = cmd.ExecuteQuery<TravelSummary>();
-            foreach (TravelSummary c in reader)
-            {
-                Debug.WriteLine("==========================SUMMARY START======================================");
-                Debug.WriteLine(c.ID + "--" + c.name + "--" + c.startTime + "--" + c.startLatitude
-                    + "--" + c.startLongitude + "--" + c.endTime + "--" + c.endLatitude
-                    + "--" + c.endLongitude + "--" + c.steps);
-                Debug.WriteLine("======================HEIGHT START==================================");
-                sql = "select * from heigth_" + c.ID;
-                cmd = db.CreateCommand(sql);
-                List<TravelHeight> reader1 = cmd.ExecuteQuery<TravelHeight>();
-                foreach (TravelHeight d in reader1)
-                {
-                    Debug.WriteLine(d.ID + "--" + d.time + "--" + d.height + "--" + d.pressure
-                        + "--" + d.walkingSteps + "--" + d.runningSteps);
-                }
-                Debug.WriteLine("======================HEIGHT END==================================");
-                Debug.WriteLine("======================GPS START==================================");
-                sql = "select * from gps_" + c.ID;
-                cmd = db.CreateCommand(sql);
-                List<TravelGPS> reader2 = cmd.ExecuteQuery<TravelGPS>();
-                foreach (TravelGPS e in reader2)
-                {
-                    Debug.WriteLine(e.ID + "--" + e.time + "--" + e.laitude + "--" + e.longitude);
-                }
-                Debug.WriteLine("======================GPS END==================================");
-                Debug.WriteLine("==========================SUMMARY END======================================");
-            }
+            //string sql = "select * from Travel_Summary";
+            //SQLiteCommand cmd = db.CreateCommand(sql);
+            //List<TravelSummary> reader = cmd.ExecuteQuery<TravelSummary>();
+            //foreach (TravelSummary c in reader)
+            //{
+            //    Debug.WriteLine("==========================SUMMARY START======================================");
+            //    Debug.WriteLine(c.ID + "--" + c.name + "--" + c.startTime + "--" + c.startLatitude
+            //        + "--" + c.startLongitude + "--" + c.endTime + "--" + c.endLatitude
+            //        + "--" + c.endLongitude + "--" + c.steps);
+            //    Debug.WriteLine("======================HEIGHT START==================================");
+            //    sql = "select * from heigth_" + c.ID;
+            //    cmd = db.CreateCommand(sql);
+            //    List<TravelHeight> reader1 = cmd.ExecuteQuery<TravelHeight>();
+            //    foreach (TravelHeight d in reader1)
+            //    {
+            //        Debug.WriteLine(d.ID + "--" + d.time + "--" + d.height + "--" + d.pressure
+            //            + "--" + d.walkingSteps + "--" + d.runningSteps);
+            //    }
+            //    Debug.WriteLine("======================HEIGHT END==================================");
+            //    Debug.WriteLine("======================GPS START==================================");
+            //    sql = "select * from gps_" + c.ID;
+            //    cmd = db.CreateCommand(sql);
+            //    List<TravelGPS> reader2 = cmd.ExecuteQuery<TravelGPS>();
+            //    foreach (TravelGPS e in reader2)
+            //    {
+            //        Debug.WriteLine(e.ID + "--" + e.time + "--" + e.laitude + "--" + e.longitude);
+            //    }
+            //    Debug.WriteLine("======================GPS END==================================");
+            //    Debug.WriteLine("==========================SUMMARY END======================================");
+            //}
 
         }
         public void start(double height, double pressure, long ws,long rs, double latitude, double longitude)
