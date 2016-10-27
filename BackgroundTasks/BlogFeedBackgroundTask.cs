@@ -142,13 +142,26 @@ namespace BackgroundTasks
             ws = aa[PedometerStepKind.Walking].CumulativeSteps;
             double p = pressure.GetCurrentReading().StationPressureInHectopascals;
             double h = Math.Round(nowH, 1);
-            Geolocator geolocator = new Geolocator();
-            // 获取当前的位置
-            Geoposition pos = await geolocator.GetGeopositionAsync();
-            //纬度
-            double la = pos.Coordinate.Point.Position.Latitude;
-            //经度
-            double lo = pos.Coordinate.Point.Position.Longitude;
+            double la = -1;
+            double lo = -1;
+            try
+            {
+                Geolocator geolocator = new Geolocator();
+                // 获取当前的位置
+                Geoposition pos = await geolocator.GetGeopositionAsync();
+                //纬度
+                 la = pos.Coordinate.Point.Position.Latitude;
+                //经度
+                 lo = pos.Coordinate.Point.Position.Longitude;
+            }
+            catch (UnauthorizedAccessException)
+            {
+                //未授权的访问异常
+            }
+            catch (Exception ex)
+            {
+                //超时 time out
+            }
             dm.start(h, p, ws, rs, la, lo);
             var settings = ApplicationData.Current.LocalSettings;
             settings.Values["startRS"] = rs;

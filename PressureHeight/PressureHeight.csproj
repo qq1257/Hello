@@ -96,6 +96,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="config\TotalStaticVariable.cs" />
     <Compile Include="Im\Chat.cs" />
     <Compile Include="Im\ImManager.cs" />
     <Compile Include="Im\MsgListener.cs" />
@@ -109,6 +110,12 @@
       <DependentUpon>NameDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="view\Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="view\ServiceSetting.xaml.cs">
+      <DependentUpon>ServiceSetting.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -137,6 +144,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="NameDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="view\Login.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="view\ServiceSetting.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

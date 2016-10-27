@@ -1,4 +1,5 @@
-﻿using PressureHeight.Im;
+﻿using PressureHeight.config;
+using PressureHeight.Im;
 using System;
 using System.Diagnostics;
 using Windows.Storage;
@@ -50,12 +51,12 @@ namespace PressureHeight
         {
             try {
                 client = new Client(Transport.Socket);
-                client.Settings.Hostname = getLocalSettings("host").ToString();
+                client.Settings.Hostname = getLocalSettings(TotalStaticVariable.SERVICE_HOST).ToString();
                 client.Settings.SSL = false;
                 client.Settings.OldSSL = false;
                 client.Settings.AuthenticationTypes = MechanismType.DigestMd5;
-                client.Settings.Port = (int)getLocalSettings("port");
-                loginJid = new Jid(user, getLocalSettings("domin").ToString(), resource);
+                client.Settings.Port = int.Parse(getLocalSettings(TotalStaticVariable.SERVICE_PORT).ToString());
+                loginJid = new Jid(user, getLocalSettings(TotalStaticVariable.SERVICE_DOMIN).ToString(), resource);
                 client.Settings.Id = loginJid;
                 client.Settings.Password = password;
                 client.OnConnected += Client_OnConnected;

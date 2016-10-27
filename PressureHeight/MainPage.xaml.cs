@@ -6,7 +6,6 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using System.Diagnostics;
-using XMPP;
 using Windows.UI.ViewManagement;
 using Windows.UI;
 using System.Threading.Tasks;
@@ -16,6 +15,7 @@ using Windows.Storage;
 using Windows.UI.Popups;
 using DataBase;
 using Windows.Devices.Geolocation;
+using PressureHeight.view;
 
 //“空白页”项模板在 http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409 上有介绍
 
@@ -50,7 +50,6 @@ namespace PressureHeight
             //statusBar.ProgressIndicator.Text = "FontAwesome Offline Reference (v4.2.0)"; // 文本
             statusBar.ProgressIndicator.ProgressValue = 0;
             statusBar.ProgressIndicator.ShowAsync();
-
             this.InitializeComponent();
             Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtons_BackPressed;
             items = new ObservableCollection<Item>();
@@ -58,20 +57,16 @@ namespace PressureHeight
             Connect__Button.Click += Connect__Button_Click;
             Close_Button.Click += Close_Button_Click;
             Open_Button.Click += Open_Button_Click;
-
-            alti = Altimeter.GetDefault();
-
-            if (null != alti)
-            {
-                _deviceUseTrigger = new DeviceUseTrigger();
-            }
-
-            new Geolocator().GetGeopositionAsync();
-            //DataManager.getInstance();
+            new Geolocator().GetGeopositionAsync();            
         }
 
         private  void Open_Button_Click(object sender, RoutedEventArgs e)
         {
+            alti = Altimeter.GetDefault();
+            if (null != alti)
+            {
+                _deviceUseTrigger = new DeviceUseTrigger();
+            }
             openBackgroup();
         }
         
@@ -266,13 +261,26 @@ namespace PressureHeight
             int ws = aa[PedometerStepKind.Walking].CumulativeSteps;
             double p = Barometer.GetDefault().GetCurrentReading().StationPressureInHectopascals;
             double h = Math.Round(nowH, 1);
-            // 获取当前的位置
-            Geolocator geolocator = new Geolocator();
-            Geoposition pos = await geolocator.GetGeopositionAsync();
-            //纬度
-            double la = pos.Coordinate.Point.Position.Latitude;
-            //经度
-            double lo = pos.Coordinate.Point.Position.Longitude;
+            double la = -1;
+            double lo = -1;
+            try
+            {
+                Geolocator geolocator = new Geolocator();
+                // 获取当前的位置
+                Geoposition pos = await geolocator.GetGeopositionAsync();
+                //纬度
+                la = pos.Coordinate.Point.Position.Latitude;
+                //经度
+                lo = pos.Coordinate.Point.Position.Longitude;
+            }
+            catch (UnauthorizedAccessException)
+            {
+                //未授权的访问异常
+            }
+            catch (Exception ex)
+            {
+                //超时 time out
+            }
             dm.end(la, lo, h, p, ws, rs, (ws - startWS) + (rs - startRS),name);
             dm.closeDB();
         }
@@ -352,6 +360,13 @@ namespace PressureHeight
             }
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            //Frame rootFrame = Window.Current.Content as Frame;
+            base.OnNavigatedTo(e);
+            
+        }
+
         /// <summary>
         /// Invoked immediately before the Page is unloaded and is no longer the current source of a parent Frame.
         /// </summary>
@@ -376,10 +391,8 @@ namespace PressureHeight
         }
         private void Connect__Button_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        
+            Frame.Navigate(typeof(Login));
+        }       
 
         private DateTime dtBackTimeFirst;
         private DateTime dtBackTimeSecond;
@@ -393,8 +406,6 @@ namespace PressureHeight
                 //XmlDocument toastXml = ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastText02);
                 //XmlNodeList elements = toastXml.GetElementsByTagName("text");
                 //elements[0].AppendChild(toastXml.CreateTextNode("再按一次返回键退出程序 8-)"));
-
-
 
                 ////DateTime dt = DateTime.Now.AddSeconds(5);
                 ////ScheduledToastNotification toast = new ScheduledToastNotification(toastXml, dt)

@@ -12,7 +12,6 @@ namespace DataBase
         private string tableGPS;
         private static DataManager dm = null;
 
-
         public static DataManager getInstance()
         {
             if (dm == null)
