@@ -15,31 +15,26 @@ using Windows.UI.Xaml.Navigation;
 
 // “空白页”项模板在 http://go.microsoft.com/fwlink/?LinkId=234238 上有介绍
 
-namespace PressureHeight.view
+namespace PressureHeight.view.im
 {
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
-    public sealed partial class Login : Page
+    public sealed partial class ChatPage : Page
     {
-        public Login()
+        public ChatPage()
         {
             this.InitializeComponent();
-            this.NavigationCacheMode = NavigationCacheMode.Enabled;
+            Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtons_BackPressed;
         }
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private void HardwareButtons_BackPressed(object sender, Windows.Phone.UI.Input.BackPressedEventArgs e)
         {
-            base.OnNavigatedTo(e);
-        }
-
-        private void Service_B_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(ServiceSetting));
-        }
-
-        private void Login_Button_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(MainPage));
+            if (Frame.CanGoBack)
+            {
+                Windows.Phone.UI.Input.HardwareButtons.BackPressed -= HardwareButtons_BackPressed;
+                Frame.GoBack();
+            }
+            e.Handled = true;
         }
     }
 }

@@ -6,44 +6,21 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock x:Name="Height_B" HorizontalAlignment="Left" Margin="46,108,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
-        <TextBlock x:Name="Pressure_B" HorizontalAlignment="Left" Margin="203,108,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
-        <ListView x:Name="Height_List" HorizontalAlignment="Left" Margin="10,133,0,0" Width="188" Height="354" VerticalAlignment="Top">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Grid HorizontalAlignment="Left" >
-                        <StackPanel Orientation="Horizontal">
-                            <!--<Image Source="{Binding Image}" Height="30" Width="30" VerticalAlignment="Center" />-->
-                            <StackPanel>
-                                <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding Title}" HorizontalAlignment="Left" />
-                                <TextBlock TextWrapping="Wrap"  VerticalAlignment="Center" Text="{Binding Category}" HorizontalAlignment="Left"/>
-                            </StackPanel>
-                        </StackPanel>
-                    </Grid>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-            <Button x:Name="button" Content="Button" Height="100" Width="100"/>
-        </ListView>
-        <ListView x:Name="Pressure_List" HorizontalAlignment="Left" Height="497" Margin="203,133,0,0" VerticalAlignment="Top" Width="147" ItemsSource="{Binding}" />
-        <TextBox x:Name="Host_Text" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="10.10.11.158" VerticalAlignment="Top" Width="148" PlaceholderText="服务器地址"/>
-        <TextBox x:Name="Port_Text" HorizontalAlignment="Left" Margin="179,10,0,0" TextWrapping="Wrap" Text="44002" VerticalAlignment="Top" RenderTransformOrigin="2.223,0.662" PlaceholderText="端口"/>
-        <TextBox x:Name="Domin_Text" HorizontalAlignment="Left" Margin="271,10,0,0" TextWrapping="Wrap" Text="yuyu.com" VerticalAlignment="Top" PlaceholderText="域名"/>
-        <TextBox x:Name="User_Text" HorizontalAlignment="Left" Margin="10,51,0,0" TextWrapping="Wrap" Text="test" VerticalAlignment="Top" Width="140" PlaceholderText="请输入用户名"/>
-        <TextBox x:Name="Password_Text" HorizontalAlignment="Left" Margin="155,51,0,0" TextWrapping="Wrap" Text="123456" VerticalAlignment="Top" Width="95" AutomationProperties.HelpText="" PlaceholderText="请输入密码"/>
-        <Button x:Name="Connect__Button" Content="连接" HorizontalAlignment="Left" Margin="275,51,0,0" VerticalAlignment="Top"/>
-        <StackPanel x:Name="Tip_StackPanel"  Background="Green"  VerticalAlignment="Top">
-            <TextBlock Text="再按一次返回键退出程序 8-)" Height="32" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" TextAlignment="Center" />
-            <StackPanel.Projection>
-                <PlaneProjection x:Name="planeProjection" RotationX="90" />
-            </StackPanel.Projection>
-        </StackPanel>
-        <Button x:Name="Open_Button" Content="开启" HorizontalAlignment="Left" Margin="18,536,0,0" VerticalAlignment="Top" RenderTransformOrigin="-2.099,0.298"/>
-        <Button x:Name="Close_Button" Content="关闭" HorizontalAlignment="Left" Margin="108,536,0,0" VerticalAlignment="Top" RenderTransformOrigin="-2.099,0.298"/>
-
-    </Grid>
     <Page.Resources>
+
+        <DataTemplate x:Key="StoreFrontTileTemplate1">
+            <Grid HorizontalAlignment="Left" >
+                <StackPanel Orientation="Horizontal">
+                    <!--<Image Source="{Binding Image}" Height="30" Width="30" VerticalAlignment="Center" />-->
+                    <StackPanel>
+                        <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding Title}" HorizontalAlignment="Left" />
+                        <TextBlock TextWrapping="Wrap"  VerticalAlignment="Center" Text="{Binding Category}" HorizontalAlignment="Left"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+        
+        
         <Storyboard x:Name="Tip_Storyboard1">
             <!--针对Height属性的动画-->
             <DoubleAnimation Storyboard.TargetName="planeProjection" 
@@ -70,4 +47,29 @@
         </Storyboard>
 
     </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <TextBlock x:Name="Height_B" HorizontalAlignment="Left" Margin="46,108,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+        <TextBlock x:Name="Pressure_B" HorizontalAlignment="Left" Margin="203,108,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+        <ListView x:Name="Height_List" HorizontalAlignment="Left" Margin="10,133,0,0" Width="188" Height="354" VerticalAlignment="Top" ItemTemplate="{StaticResource StoreFrontTileTemplate1}"/>
+
+
+        <ListView x:Name="Pressure_List" HorizontalAlignment="Left" Height="497" Margin="203,133,0,0" VerticalAlignment="Top" Width="147" ItemsSource="{Binding}" />
+        <TextBox x:Name="Host_Text" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="10.10.11.158" VerticalAlignment="Top" Width="148" PlaceholderText="服务器地址"/>
+        <TextBox x:Name="Port_Text" HorizontalAlignment="Left" Margin="179,10,0,0" TextWrapping="Wrap" Text="44002" VerticalAlignment="Top" RenderTransformOrigin="2.223,0.662" PlaceholderText="端口"/>
+        <TextBox x:Name="Domin_Text" HorizontalAlignment="Left" Margin="271,10,0,0" TextWrapping="Wrap" Text="yuyu.com" VerticalAlignment="Top" PlaceholderText="域名"/>
+        <TextBox x:Name="User_Text" HorizontalAlignment="Left" Margin="10,51,0,0" TextWrapping="Wrap" Text="test" VerticalAlignment="Top" Width="140" PlaceholderText="请输入用户名"/>
+        <TextBox x:Name="Password_Text" HorizontalAlignment="Left" Margin="155,51,0,0" TextWrapping="Wrap" Text="123456" VerticalAlignment="Top" Width="95" AutomationProperties.HelpText="" PlaceholderText="请输入密码"/>
+        <Button x:Name="Connect__Button" Content="连接" HorizontalAlignment="Left" Margin="275,51,0,0" VerticalAlignment="Top"/>
+        <StackPanel x:Name="Tip_StackPanel"  Background="Green"  VerticalAlignment="Top">
+            <TextBlock Text="再按一次返回键退出程序 8-)" Height="32" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" TextAlignment="Center" />
+            <StackPanel.Projection>
+                <PlaneProjection x:Name="planeProjection" RotationX="90" />
+            </StackPanel.Projection>
+        </StackPanel>
+        <Button x:Name="Open_Button" Content="开启" HorizontalAlignment="Left" Margin="18,536,0,0" VerticalAlignment="Top" RenderTransformOrigin="-2.099,0.298"/>
+        <Button x:Name="Close_Button" Content="关闭" HorizontalAlignment="Left" Margin="108,536,0,0" VerticalAlignment="Top" RenderTransformOrigin="-2.099,0.298"/>
+
+    </Grid>
+    
 </Page>

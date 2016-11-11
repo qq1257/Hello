@@ -30,7 +30,7 @@ namespace PressureHeight.view
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtons_BackPressed; ;
+            Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtons_BackPressed;
             var settings = ApplicationData.Current.LocalSettings;
             if (settings.Values.ContainsKey(TotalStaticVariable.SERVICE_HOST))
             {
@@ -84,6 +84,7 @@ namespace PressureHeight.view
         {
             if (Frame.CanGoBack)
             {
+                Windows.Phone.UI.Input.HardwareButtons.BackPressed -= HardwareButtons_BackPressed;
                 Frame.GoBack();
             }
         }

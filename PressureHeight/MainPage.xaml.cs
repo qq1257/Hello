@@ -57,7 +57,8 @@ namespace PressureHeight
             Connect__Button.Click += Connect__Button_Click;
             Close_Button.Click += Close_Button_Click;
             Open_Button.Click += Open_Button_Click;
-            new Geolocator().GetGeopositionAsync();            
+            new Geolocator().GetGeopositionAsync();
+            
         }
 
         private  void Open_Button_Click(object sender, RoutedEventArgs e)
@@ -91,7 +92,8 @@ namespace PressureHeight
                 Window.Current.VisibilityChanged -= new WindowVisibilityChangedEventHandler(VisibilityChanged);
                 Open_Button.IsEnabled = true;
                 Close_Button.IsEnabled = false;
-                closeBackgroundTask();               
+                closeBackgroundTask();
+                end(name);
                 Debug.WriteLine("Background task was canceled");
             }
         }
@@ -105,6 +107,7 @@ namespace PressureHeight
             {
                 // Make sure this app is allowed to run background tasks.
                 // RequestAccessAsync must be called on the UI thread.
+                BackgroundExecutionManager.RemoveAccess();
                 BackgroundAccessStatus accessStatus = await BackgroundExecutionManager.RequestAccessAsync();
                 if (accessStatus == BackgroundAccessStatus.Denied)
                 {
@@ -205,13 +208,14 @@ namespace PressureHeight
                 backgroundTaskBuilder.SetTrigger(trigger);
                 gpsTask = backgroundTaskBuilder.Register();
                 // 注册后台任务完成事件
-                //gpsTask.Completed += new BackgroundTaskCompletedEventHandler(OnBackgroundTaskCompleted);
+                //gpsTask.Completed += new BackgroundTaskCompletedEventHandler(oneTwo);
             }
             catch (Exception ex)
             {
-
+                Debug.WriteLine("error:"+ex.Message);
             }
         }
+        
 
         /// <summary>
         /// This is the background task completion handler.
@@ -219,8 +223,7 @@ namespace PressureHeight
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private async void OnBackgroundTaskCompleted(BackgroundTaskRegistration sender, BackgroundTaskCompletedEventArgs e)
-        {
-            end(name);
+        {           
             // Dispatch to the UI thread to display the output.
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
@@ -261,8 +264,8 @@ namespace PressureHeight
             int ws = aa[PedometerStepKind.Walking].CumulativeSteps;
             double p = Barometer.GetDefault().GetCurrentReading().StationPressureInHectopascals;
             double h = Math.Round(nowH, 1);
-            double la = -1;
-            double lo = -1;
+            double la = 200;
+            double lo = 200;
             try
             {
                 Geolocator geolocator = new Geolocator();
@@ -399,7 +402,7 @@ namespace PressureHeight
 
         private  void HardwareButtons_BackPressed(object sender, Windows.Phone.UI.Input.BackPressedEventArgs e)
         {
-            dtBackTimeSecond = System.DateTime.Now;
+            dtBackTimeSecond = DateTime.Now;
             TimeSpan ts = dtBackTimeSecond - dtBackTimeFirst;
             if (ts >= new TimeSpan(0, 0, 2))
             {
@@ -422,6 +425,7 @@ namespace PressureHeight
                 Window.Current.VisibilityChanged -= new WindowVisibilityChangedEventHandler(VisibilityChanged);
                 closeBackgroundTask();
                 Debug.WriteLine("Background task was canceled");
+                Windows.Phone.UI.Input.HardwareButtons.BackPressed -= HardwareButtons_BackPressed;
                 Application.Current.Exit();
             }
         }

@@ -1,0 +1,45 @@
+﻿<Page
+    x:Class="PressureHeight.view.im.ImHub"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PressureHeight.view.im"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <TextBlock>
+                <Run>阿凡达是否阿斯弗啊是发达阿斯蒂芬啊收到发阿斯顿发阿斯顿发撒旦发撒旦发撒旦发撒旦发阿斯顿我是标题头</Run>
+            </TextBlock>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Pivot x:Name="rootPivot" >
+                <PivotItem Header="session">
+                    <Frame x:Name="Session_Frame"></Frame>
+                </PivotItem>
+                <PivotItem Header="friends">
+                    <Frame x:Name="Friends_Frame"></Frame>
+                </PivotItem>
+                <PivotItem Header="dymamic">
+                    <Frame x:Name="Dymamic_Frame"></Frame>
+                </PivotItem>
+            </Pivot>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <ToggleButton Grid.Column="0" Content="测试" Click="ToggleButton_Click" />
+            <Image Grid.Column="1" Source="ms-appx:///Assets/BadgeLogo.png"/>
+            <Image Grid.Column="2" Source="ms-appx:///Assets/SplashScreen.png"/>
+        </Grid>
+    </Grid>
+</Page>

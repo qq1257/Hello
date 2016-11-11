@@ -1,4 +1,6 @@
 ﻿using PressureHeight.view;
+using PressureHeight.view.im;
+using PressureHeight.view.outdoor;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -74,7 +76,8 @@ namespace PressureHeight
                     // 并通过将所需信息作为导航参数传入来配置
                     // 参数
                     //rootFrame.Navigate(typeof(MainPage), e.Arguments);
-                    rootFrame.Navigate(typeof(Login), e.Arguments);
+                    rootFrame.Navigate(typeof(StrokeSummary), e.Arguments);
+                    //rootFrame.Navigate(typeof(ImHub), e.Arguments);
                 }
                 // 确保当前窗口处于活动状态
                 Window.Current.Activate();

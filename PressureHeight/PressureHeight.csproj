@@ -96,6 +96,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="bdMap\AddressComponent.cs" />
+    <Compile Include="bdMap\GeocoderResult.cs" />
     <Compile Include="config\TotalStaticVariable.cs" />
     <Compile Include="Im\Chat.cs" />
     <Compile Include="Im\ImManager.cs" />
@@ -110,8 +112,28 @@
       <DependentUpon>NameDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="util\HttpUtil.cs" />
+    <Compile Include="util\JsonUtil.cs" />
+    <Compile Include="view\im\ChatPage.xaml.cs">
+      <DependentUpon>ChatPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="view\im\DymamicPage.xaml.cs">
+      <DependentUpon>DymamicPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="view\im\FriendsPage.xaml.cs">
+      <DependentUpon>FriendsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="view\im\ImHub.xaml.cs">
+      <DependentUpon>ImHub.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="view\im\SessionPage.xaml.cs">
+      <DependentUpon>SessionPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="view\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="view\outdoor\StrokeSummary.xaml.cs">
+      <DependentUpon>StrokeSummary.xaml</DependentUpon>
     </Compile>
     <Compile Include="view\ServiceSetting.xaml.cs">
       <DependentUpon>ServiceSetting.xaml</DependentUpon>
@@ -147,7 +169,31 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="view\im\ChatPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="view\im\DymamicPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="view\im\FriendsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="view\im\ImHub.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="view\im\SessionPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="view\Login.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="view\outdoor\StrokeSummary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

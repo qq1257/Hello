@@ -142,8 +142,8 @@ namespace BackgroundTasks
             ws = aa[PedometerStepKind.Walking].CumulativeSteps;
             double p = pressure.GetCurrentReading().StationPressureInHectopascals;
             double h = Math.Round(nowH, 1);
-            double la = -1;
-            double lo = -1;
+            double la = 200;
+            double lo = 200;
             try
             {
                 Geolocator geolocator = new Geolocator();

@@ -1,18 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataBase
 {
-   public class TimeUtil
+    public class TimeUtil
     {
-        //获取当前时间戳，毫秒
+        /// <summary>
+        /// 获取当前时间戳（毫秒）
+        /// </summary>
+        /// <returns></returns>
         public static long getNowStamp()
         {
-            TimeSpan ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            TimeSpan ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0,DateTimeKind.Utc);
             return Convert.ToInt64(ts.TotalMilliseconds);
         }
+        public static DateTime getAppointDate(long t)
+        {
+            return TimeZoneInfo.ConvertTime(new DateTime(1970, 1, 1, 0, 0, 0, 0,DateTimeKind.Utc).AddMilliseconds(t),TimeZoneInfo.Local);
+        }
+
     }
 }

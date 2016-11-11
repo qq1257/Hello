@@ -10,7 +10,7 @@ namespace BackgroundTasks
     {
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
-            BackgroundTaskDeferral deferral = taskInstance.GetDeferral();
+            //BackgroundTaskDeferral deferral = taskInstance.GetDeferral();
             try
             {
                 taskInstance.Canceled += new BackgroundTaskCanceledEventHandler(OnCanceled);
@@ -25,11 +25,11 @@ namespace BackgroundTasks
             catch (Exception ex)
             {
                 //超时 time out
-                insertGPS(-1,-1);
+                insertGPS(200,200);
             }
             finally
             {
-                deferral.Complete();
+                //deferral.Complete();
             }
         }
 
