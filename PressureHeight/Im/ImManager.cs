@@ -1,6 +1,7 @@
 ﻿using PressureHeight.config;
 using PressureHeight.Im;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Windows.Storage;
 using XMPP;
@@ -18,6 +19,7 @@ namespace PressureHeight
         private static ImManager im;
         private Jid loginJid;
         private MsgListener chatMsgListener = null;
+        private HashSet<PacketListener> packetListeners = new HashSet<PacketListener>();
         private string chatTo;
         private ImManager()
         {
@@ -90,18 +92,41 @@ namespace PressureHeight
              }
         }
 
-
+        /// <summary>
+        /// 创建会话管理
+        /// </summary>
+        /// <param name="to">会话对象完整JID</param>
+        /// <param name="listener">回掉监听事件</param>
+        /// <returns></returns>
         public Chat createChat(string to, MsgListener listener)
         {
             this.chatMsgListener = listener;
             chatTo = to;
             return new Chat(client, to, loginJid, Message.TypeEnum.chat);
         }
-
+        /// <summary>
+        /// 移除会话
+        /// </summary>
         public void removeChat()
         {
             chatMsgListener = null;
             chatTo = null;
+        }
+        /// <summary>
+        /// 注册会话监听
+        /// </summary>
+        /// <param name="packetListener"></param>
+        public void addPacketListener(PacketListener packetListener)
+        {
+            packetListeners.Add(packetListener);
+        }
+        /// <summary>
+        /// 移除会话监听
+        /// </summary>
+        /// <param name="packetListener"></param>
+        public void removePacketListener(PacketListener packetListener)
+        {
+            packetListeners.Remove(packetListener);
         }
 
         private void Client_OnResourceBound(object sender, XMPP.Common.ResourceBoundEventArgs e)
@@ -113,6 +138,12 @@ namespace PressureHeight
         private void Client_OnReceive(object sender, XMPP.Common.TagEventArgs e)
         {
             Tag tag = e.tag;
+            //转发数据包
+            foreach (PacketListener p in packetListeners)
+            {
+                p.processPacket(tag);
+            }
+
             if (tag is Message)
             {               
                 if (chatMsgListener != null)

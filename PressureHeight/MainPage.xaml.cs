@@ -16,6 +16,13 @@ using Windows.UI.Popups;
 using DataBase;
 using Windows.Devices.Geolocation;
 using PressureHeight.view;
+using Windows.Foundation.Collections;
+using Windows.Foundation;
+using System.Collections.Generic;
+using PressureHeight.util;
+using Windows.Web.Http;
+using Windows.Storage.Streams;
+using Windows.UI.Xaml.Media.Imaging;
 
 //“空白页”项模板在 http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409 上有介绍
 
@@ -120,7 +127,6 @@ namespace PressureHeight
                     Open_Button.IsEnabled = false;
                     Close_Button.IsEnabled = true;
                 }
-
             }
             else
             {
@@ -184,7 +190,6 @@ namespace PressureHeight
                 Debug.WriteLine("A previous background task is still running, please wait for it to exit");
               FindAndCancelExistingBackgroundTask(Travel_TaskName);
             }
-
             return started;
         }
 
@@ -198,15 +203,15 @@ namespace PressureHeight
                     await new MessageDialog("后台任务被禁止!").ShowAsync();
                     return;
                 }
-                //  注册一个在锁屏上定时15分钟执行的后台任务
-                var backgroundTaskBuilder = new BackgroundTaskBuilder()
-                {
-                    Name = GPS_TaskName,
-                    TaskEntryPoint = GPS_TaskEntryPoint
-                };                
-                var trigger = new TimeTrigger(15, false);
-                backgroundTaskBuilder.SetTrigger(trigger);
-                gpsTask = backgroundTaskBuilder.Register();
+                ////  注册一个在锁屏上定时15分钟执行的后台任务
+                //var backgroundTaskBuilder = new BackgroundTaskBuilder()
+                //{
+                //    Name = GPS_TaskName,
+                //    TaskEntryPoint = GPS_TaskEntryPoint
+                //};                
+                //var trigger = new TimeTrigger(15, false);
+                //backgroundTaskBuilder.SetTrigger(trigger);
+                //gpsTask = backgroundTaskBuilder.Register();
                 // 注册后台任务完成事件
                 //gpsTask.Completed += new BackgroundTaskCompletedEventHandler(oneTwo);
             }
@@ -332,7 +337,6 @@ namespace PressureHeight
         private void openBackgroup()
         {
             // Store a setting for the background task to read
-            ApplicationData.Current.LocalSettings.Values["IsAppVisible"] = true;
             // 获取后台任务是否已经注册，如果已经注册则获取其注册对象
             foreach (var cur in BackgroundTaskRegistration.AllTasks)
             {
@@ -361,11 +365,18 @@ namespace PressureHeight
                 // 如果未注册后台任务，则注册后台任务
                 StartGPSBackgroundTaskAsync();
             }
+            ApplicationData.Current.LocalSettings.Values["isBackRun"] = true;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             //Frame rootFrame = Window.Current.Content as Frame;
+            if (ApplicationData.Current.LocalSettings.Values.ContainsKey("isBackRun"))
+            {
+                Boolean isBackRun = (Boolean)ApplicationData.Current.LocalSettings.Values["isBackRun"];
+                Open_Button.IsEnabled = !isBackRun;
+                Close_Button.IsEnabled = isBackRun;
+            }
             base.OnNavigatedTo(e);
             
         }
@@ -381,7 +392,6 @@ namespace PressureHeight
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             Window.Current.VisibilityChanged -= new WindowVisibilityChangedEventHandler(VisibilityChanged);
-            ApplicationData.Current.LocalSettings.Values["IsAppVisible"] = false;
             base.OnNavigatingFrom(e);
         }
 
@@ -389,13 +399,75 @@ namespace PressureHeight
         {
             if (Close_Button.IsEnabled)
             {
-                ApplicationData.Current.LocalSettings.Values["IsAppVisible"] = e.Visible;
+                ApplicationData.Current.LocalSettings.Values["isBackRun"] = e.Visible;
             }
         }
-        private void Connect__Button_Click(object sender, RoutedEventArgs e)
+        private async void Connect__Button_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Login));
-        }       
+            //Frame.Navigate(typeof(Login));
+            // var myPictures = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Pictures);
+            // //获取库中文件夹的列表
+            // IObservableVector<StorageFolder> myPicturesFolders =myPictures.Folders;
+            // foreach (StorageFolder s in myPicturesFolders)
+            // {
+            //     Debug.WriteLine(s.Path);
+            // }
+            // //获取默认保存新文件的库中的文件夹
+            // StorageFolder savePicturesFolder =  myPictures.SaveFolder;
+            // string folderName = "diqurly";
+            // StorageFolder di;
+            // di = await savePicturesFolder.CreateFolderAsync(folderName, CreationCollisionOption.OpenIfExists);
+
+            // StorageFile  motion= await ApplicationData.Current.LocalFolder.GetFileAsync("CustomersDb.db3");
+            //await motion.MoveAsync(di);
+
+            // BitmapImage bitm = new BitmapImage();
+            // //var aa=await di.GetFileAsync("1.gif");
+            // var aa= await StorageFile.GetFileFromPathAsync("C:/Data/Users/Public/Pictures/diqurly/1.gif");
+            //await bitm.SetSourceAsync(await aa.OpenAsync(FileAccessMode.Read));
+            // //bitm.UriSource = new Uri((await di.GetFileAsync("1.gif")).Path);
+            // image.Source = bitm;
+
+          StorageFolder headFolder=await FilePathUtil.getFolder(FilePathUtil.FolderOption.Im,FilePathUtil.SubOption.HeadImg);
+            StorageFile headFile =await headFolder.GetFileAsync("1.gif");
+
+            BitmapImage bitm = new BitmapImage();
+            bitm.UriSource = new Uri(headFile.Path);
+            image.Source = bitm;
+
+
+            //HttpUtil a = new HttpUtil();
+            //IHttpContent content = await a.get(new Uri("http://img.gaoxiaogif.cn/GaoxiaoGiffiles/images/2015/12/01/qinggongshuishangpiao.gif"));
+            //if (content != null)
+            //{
+            //    string contentType = content.Headers.ContentType.MediaType;
+            //    if (contentType.Contains("image"))
+            //    {
+            //        //文件后缀
+            //        string suffix = contentType.Substring(contentType.IndexOf('/') + 1);
+            //        try
+            //        {
+            //            //ulong length = (ulong)content.Headers.ContentLength;
+            //            string fileName = "1." + suffix;
+            //            IBuffer inputBuffer = await content.ReadAsBufferAsync();
+            //            new FileSaveUtil().saveFile(fileName, headFolder, inputBuffer);
+            //        }
+            //        catch (Exception e2)
+            //        {
+            //            throw new Exception("错误的标头信息！");
+            //        }
+            //    }
+            //}
+            //await di.DeleteAsync();
+            //IReadOnlyList<StorageFolder> folders =await savePicturesFolder.GetFoldersAsync();
+            //foreach (StorageFolder s in folders)
+            //{
+            //    Debug.WriteLine(s.Path);
+            //}
+            //将现有文件夹添加到库
+            //StorageFolder newFolder =await myPictures.RequestAddFolderAsync();
+            Debug.WriteLine("1111");
+        }
 
         private DateTime dtBackTimeFirst;
         private DateTime dtBackTimeSecond;
@@ -452,6 +524,7 @@ namespace PressureHeight
             {
                 FindAndCancelExistingBackgroundTask(GPS_TaskName);
             }
+            ApplicationData.Current.LocalSettings.Values["isBackRun"] = false;
         }
 
 

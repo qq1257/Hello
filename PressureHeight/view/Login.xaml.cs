@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PressureHeight.models;
+using PressureHeight.view.im;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -39,7 +41,10 @@ namespace PressureHeight.view
 
         private void Login_Button_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(MainPage));
+            //Frame.Navigate(typeof(MainPage));
+            ImDbManage.LOGIN_USER = User_A.Text;
+
+            Frame.Navigate(typeof(SessionPage));
         }
     }
 }

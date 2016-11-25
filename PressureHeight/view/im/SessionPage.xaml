@@ -6,10 +6,94 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+    <Page.Resources>
+        <DataTemplate x:Key="SessionContentTemplate">
+            <Grid  Height="68">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="35"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="24"/>
+                        <RowDefinition Height="44"/>
+                    </Grid.RowDefinitions>
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock FontSize="10" Text="{Binding showTime}" HorizontalAlignment="Center" Foreground="#FFA29898"/>
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <Border BorderBrush="Blue"  BorderThickness="0,2,0,0" >
+                            <StackPanel VerticalAlignment="Center" >
+                                <TextBlock FontSize="9" HorizontalAlignment="Center" Text="{Binding unreadNum}"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="48"/>
+                        <RowDefinition Height="20"/>
+                    </Grid.RowDefinitions>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="48"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid>
+                            <Border  BorderBrush="Blue"  CornerRadius="45" BorderThickness="2,0,0,2" >
+                                <Ellipse Height="46" Width="46">
+                                    <Ellipse.Fill>
+                                        <ImageBrush x:Name="T_Image" Stretch="UniformToFill" ImageSource="{Binding headImg}"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                            </Border>
+                        </Grid>
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="24"/>
+                                <RowDefinition Height="24"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="1" Padding="15,0,0,0"  >
 
+                                <TextBlock VerticalAlignment="Center" Text="{Binding name}" FontSize="17"/>
+
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                    <Grid Grid.Row="1"  Padding="23,0,0,0" Margin="0,-6,0,0">
+                        <Border BorderThickness="0,2,0,0" BorderBrush="Blue" VerticalAlignment="Center" >
+                            <TextBlock FontSize="12" Foreground="#FFA29898"  Text="{Binding newContent}" TextTrimming="WordEllipsis"/>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="207,360,0,0" TextWrapping="Wrap" Text="会话页面" VerticalAlignment="Top"/>
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Margin="113,156,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top"/>
-
+        <ListView x:Name="Session_L" BorderBrush="LightGray" 
+                  BorderThickness="1" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                  IsItemClickEnabled="True"
+                  ItemClick="Session_L_ItemClick"
+                  SelectionMode="Single"
+                  ItemTemplate="{StaticResource SessionContentTemplate}">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Padding" Value="0,2,0,2"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListViewItem">
+                                <Grid Background="{TemplateBinding Background}">
+                                    <ContentPresenter Content="{TemplateBinding Content}" Margin="{TemplateBinding Padding}"/>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
     </Grid>
 </Page>

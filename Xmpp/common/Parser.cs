@@ -146,8 +146,11 @@ namespace XMPP.Common
 
                 // Add opened stream
                 if (_streamStarted)
-                    _dataQueue = data;
-                //_dataQueue += data;
+                {
+                    //_dataQueue = data;
+                    _dataQueue += data;
+                }
+
             }
             else
             {
@@ -162,6 +165,11 @@ namespace XMPP.Common
             {
                 Clear();
                 return "</stream:stream>";
+            }
+            else if (_dataQueue.StartsWith("<stream:stream"))
+            {
+                _dataQueue = string.Empty;
+                return _dataQueue;
             }
 
             return GetNextFragment();

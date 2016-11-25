@@ -1,5 +1,7 @@
 ﻿using DataBase;
 using System;
+using System.Diagnostics;
+using System.Threading;
 using Windows.ApplicationModel.Background;
 using Windows.Devices.Geolocation;
 using Windows.Devices.Sensors;
@@ -22,6 +24,7 @@ namespace BackgroundTasks
         private double nowH=0;
         private int ws=0;
         private int rs=0;
+        private Timer timer;       
         // <summary> 
         // Background task entry point.
         // </summary> 
@@ -32,6 +35,9 @@ namespace BackgroundTasks
             high = Altimeter.GetDefault();
             if (null != high)
             {
+                TimerCallback timerc = new TimerCallback(timerTask);
+                timer = new Timer(timerc, null, 1000*60*10, 1000 * 60 * 10);
+
                 dm = DataManager.getInstance();
                 //dm.setHeightTable();
                 //IAsyncOperation<Pedometer> iasyncP = Pedometer.GetDefaultAsync();
@@ -62,7 +68,29 @@ namespace BackgroundTasks
                 pedometer.ReadingChanged += new TypedEventHandler<Pedometer, PedometerReadingChangedEventArgs>(Pedometer_ReadingChanged);
             }
         }
+        /// <summary>
+        /// 计时器
+        /// </summary>
+        /// <param name="a"></param>
+        private async void timerTask(object a)
+        {
+            Debug.WriteLine("11");
+            Geolocator geolocator = new Geolocator();
+            Geoposition pos = await geolocator.GetGeopositionAsync();
+            WriteGeolocToAppdata(pos);
+        }
 
+        private void WriteGeolocToAppdata(Geoposition pos)
+        {
+            var position = pos.Coordinate.Point.Position;
+            insertGPS(position.Latitude, position.Longitude);
+        }
+
+        private void insertGPS(double latitude, double longitude)
+        {
+            dm.setGPSTable();
+            dm.insertGPS(TimeUtil.getNowStamp(), latitude, longitude);
+        }
 
         /// <summary> 
         /// 步数变化

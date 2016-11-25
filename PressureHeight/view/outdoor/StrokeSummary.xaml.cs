@@ -129,7 +129,7 @@ namespace PressureHeight.view.outdoor
             {
                 var info = e.ClickedItem as TravelSummary;
                 List<TravelGPS> gpsL = dm.selectTravelGPS(info.ID);
-                //List<TravelHeight> heightL = dm.selectTravelheight(info.ID);
+                List<TravelHeight> heightL = dm.selectTravelheight(info.ID);
                 if (gpsL != null)
                 {
                     foreach (TravelGPS gps in gpsL)
@@ -264,7 +264,8 @@ namespace PressureHeight.view.outdoor
             Uri requestUri = new Uri("http://api.map.baidu.com/geocoder/v2/?ak=LUmQKZ3QBGRy8qG6H7Yg5d8G5PaN46Oe&output=json&pois=0&coordtype=wgs84ll&location=" + latitude + "," + longitude);
             HttpUtil http = new HttpUtil();
             try {
-                string body = await http.get(requestUri);
+                IHttpContent content= await http.get(requestUri);
+                string body = await content.ReadAsStringAsync();
                 return JsonUtil.gpsToAddress(body);
             }
             catch (Exception e)

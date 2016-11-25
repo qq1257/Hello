@@ -22,6 +22,11 @@
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
       <Extensions>
+        <Extension Category="windows.backgroundTasks" EntryPoint="BackgroundTasks.BlogFeedBackgroundTask">
+          <BackgroundTasks>
+            <Task Type="deviceUse" />
+          </BackgroundTasks>
+        </Extension>
         <Extension Category="windows.backgroundTasks" EntryPoint="BackgroundTasks.LocationBackgroundTask">
           <BackgroundTasks>
             <Task Type="systemEvent" />
@@ -29,16 +34,12 @@
             <Task Type="location" />
           </BackgroundTasks>
         </Extension>
-        <Extension Category="windows.backgroundTasks" EntryPoint="BackgroundTasks.BlogFeedBackgroundTask">
-          <BackgroundTasks>
-            <Task Type="deviceUse" />
-          </BackgroundTasks>
-        </Extension>
       </Extensions>
     </Application>
   </Applications>
   <Capabilities>
     <Capability Name="internetClient" />
+    <uap:Capability Name="picturesLibrary" />
     <DeviceCapability Name="location" />
     <DeviceCapability Name="activity" />
   </Capabilities>

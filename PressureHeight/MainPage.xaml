@@ -69,6 +69,7 @@
         </StackPanel>
         <Button x:Name="Open_Button" Content="开启" HorizontalAlignment="Left" Margin="18,536,0,0" VerticalAlignment="Top" RenderTransformOrigin="-2.099,0.298"/>
         <Button x:Name="Close_Button" Content="关闭" HorizontalAlignment="Left" Margin="108,536,0,0" VerticalAlignment="Top" RenderTransformOrigin="-2.099,0.298"/>
+        <Image x:Name="image" HorizontalAlignment="Left" Height="100" Margin="73,436,0,0" VerticalAlignment="Top" Width="100"/>
 
     </Grid>
     

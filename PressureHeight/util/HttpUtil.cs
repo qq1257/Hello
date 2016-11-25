@@ -8,7 +8,7 @@ namespace PressureHeight.util
 {
     public class HttpUtil
     {
-        public async Task<string> get(Uri requestUri)
+        public async Task<IHttpContent> get(Uri requestUri)
         {
             if (NetworkInformation.GetInternetConnectionProfile() == null)
                 throw new Exception("No network");
@@ -32,19 +32,38 @@ namespace PressureHeight.util
 
             //Send the GET request asynchronously and retrieve the response as a string.
             HttpResponseMessage httpResponse = new HttpResponseMessage();
-            string httpResponseBody = "";
+            IHttpContent content = null;
             try
             {
                 //Send the GET request
-                httpResponse = await httpClient.GetAsync(requestUri);
-                httpResponse.EnsureSuccessStatusCode();
-                httpResponseBody = await httpResponse.Content.ReadAsStringAsync();
+               httpResponse = await httpClient.GetAsync(requestUri);
+               httpResponse.EnsureSuccessStatusCode();
+               content = httpResponse.Content;
+               //string contentType= content.Headers.ContentType.MediaType;
+               // if (contentType.Contains("image"))
+               // {
+               //     //文件后缀
+               //     string suffix = contentType.Substring(contentType.IndexOf('/'));
+               //     ulong length;
+               //     try
+               //     {
+               //         length = (ulong)content.Headers.ContentLength;
+               //         httpResponseBody = await content.ReadAsInputStreamAsync();
+               //     }
+               //     catch (Exception e)
+               //     {
+               //         throw new Exception("错误的标头信息！");
+               //     }
+               // }
+               // else {
+               //     httpResponseBody = await content.ReadAsStringAsync();
+               // }                
             }
             catch (Exception ex)
             {
                 throw new Exception("Error: " + ex.HResult.ToString("X") + " Message: " + ex.Message);
             }
-            return httpResponseBody;
+            return content;
         }
 
         public async Task<string> post(Uri requestUri, IEnumerable<KeyValuePair<string, string>> contentK=null)

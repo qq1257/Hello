@@ -102,16 +102,38 @@
     <Compile Include="Im\Chat.cs" />
     <Compile Include="Im\ImManager.cs" />
     <Compile Include="Im\MsgListener.cs" />
+    <Compile Include="Im\PacketListener.cs" />
     <Compile Include="ListHelper\Base.cs" />
     <Compile Include="ListHelper\DataHelper.cs" />
     <Compile Include="ListHelper\Item.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="models\ImDbManage.cs" />
+    <Compile Include="models\im\CircleHistoryRecordModel.cs" />
+    <Compile Include="models\im\CircleHistoryRecordProvider.cs" />
+    <Compile Include="models\im\CircleMemberModel.cs" />
+    <Compile Include="models\im\CircleMemberProvider.cs" />
+    <Compile Include="models\im\CircleModel.cs" />
+    <Compile Include="models\im\CircleProvider.cs" />
+    <Compile Include="models\im\GroupModel.cs" />
+    <Compile Include="models\im\GroupProvider.cs" />
+    <Compile Include="models\im\FriendsModel.cs" />
+    <Compile Include="models\im\FriendsProvider.cs" />
+    <Compile Include="models\im\GroupHistoryRecordModel.cs" />
+    <Compile Include="models\im\GroupHistoryRecordProvider.cs" />
+    <Compile Include="models\im\GroupMemberModel.cs" />
+    <Compile Include="models\im\GroupMemberProvider.cs" />
+    <Compile Include="models\im\HistoryRecordModel.cs" />
+    <Compile Include="models\im\HistoryRecordProvider.cs" />
+    <Compile Include="models\im\SessionModel.cs" />
+    <Compile Include="models\im\SessionProvider.cs" />
     <Compile Include="NameDialog.xaml.cs">
       <DependentUpon>NameDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="util\FilePathUtil.cs" />
+    <Compile Include="util\FileSaveUtil.cs" />
     <Compile Include="util\HttpUtil.cs" />
     <Compile Include="util\JsonUtil.cs" />
     <Compile Include="view\im\ChatPage.xaml.cs">
@@ -224,6 +246,7 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
